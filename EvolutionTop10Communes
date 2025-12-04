@@ -1,0 +1,80 @@
+import csv
+from pylab import *
+
+Com, YonCom, DictCom=[],[],[]
+
+with open("donnees_2023.csv") as d2023:
+	reader=csv.reader(d2023,delimiter=";")
+
+	for i in reader:
+		Com.append(i)
+	for i in range(len(Com)):
+		if str(Com[i][6]).startswith("89"):
+			YonCom.append(Com[i])
+
+	sYonCom=sorted(YonCom, key=lambda i: int(i[8]), reverse=True)
+	del sYonCom[10:]
+	CodeCom = [[sYonCom[i][7],sYonCom[i][6]] for i in range(len(sYonCom))]
+	DictCom = [[sYonCom[i][7],sYonCom[i][6],sYonCom[i][8]] for i in range(len(sYonCom))]
+	top10 = [CodeCom[i][1] for i in range(len(CodeCom))]
+
+	Com.clear()
+
+index = {DictCom[i][1]: i for i in range(len(DictCom))}
+
+with open("donnees_2021.csv") as d2021:
+    reader = csv.reader(d2021, delimiter=";")
+    for row in reader:
+
+        code21 = row[2]     
+        pop21  = row[3]    
+
+        if code21 in top10:
+            numCom = index[code21]
+
+            DictCom[numCom].insert(2, pop21)
+
+with open("donnees_2016.csv") as d2016:
+    reader = csv.reader(d2016, delimiter=",")
+    for row in reader:
+
+        dep16 = row[2]    
+        com16 = row[5]    
+        pop16 = row[7]     
+        code16 = dep16 + com16  
+        if code16 in top10:
+        	numCom = index[str(code16)]
+        	DictCom[numCom].insert(2, pop16)
+
+with open("donnees_2008.csv") as d2008:
+    reader = csv.reader(d2008, delimiter=",")
+    for row in reader:
+
+        dep08 = row[2]    
+        com08 = row[5]    
+        pop08 = row[7]     
+        code08 = dep08 + com08  
+        if code08 in top10:
+        	numCom = index[str(code08)]
+        	DictCom[numCom].insert(2, pop08)
+        	print(pop08)
+DictGraph={}
+for i in range(len(DictCom)):
+	DictGraph[str(DictCom[i][0])]=DictCom[i][2:6]
+
+plt.title("Évolution de la population des 10 villes les plus peuplées de l'Yonne (2008,2016,2021,2023)")
+plt.xlabel("Année")
+plt.ylabel("Population")        	
+
+
+for ville, habs in DictGraph.items():
+	plt.plot([2008, 2016, 2021, 2023.1], habs, label=ville)
+
+plt.gca().yaxis.set_major_locator(plt.MaxNLocator(10))
+
+plt.grid(True)
+
+plt.legend(title="Villes", bbox_to_anchor=(1, 1), loc="upper left")
+plt.tight_layout()
+show()
+print(DictGraph)
