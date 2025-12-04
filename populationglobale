@@ -1,0 +1,115 @@
+import csv
+from pylab import plot
+from pylab import show
+from pylab import figure
+tablee1=[]
+with open('donnees_2008.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=',')
+	for row in reader:
+		tablee1.append(row)
+totalpop2008 = 0
+for i in tablee1:
+	if i[2] == '89':
+		totalpop2008 += int(i[9])
+print(totalpop2008)
+
+tablee2=[]
+with open('donnees_2016.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=',')
+	for row in reader:
+		tablee2.append(row)
+totalpop2016 = 0
+for i in tablee2:
+	if i[2] == '89':
+		totalpop2016 += int(i[9])
+print(totalpop2016)
+
+tablee3=[]
+with open('donnees_2021.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=';')
+	for row in reader:
+		tablee3.append(row)
+totalpop2021 = 0
+for i in tablee3:
+	if i[1] == '89':
+		totalpop2021 += int(i[5])
+print(totalpop2021)
+
+tablee4=[]
+with open('donnees_2023.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=';')
+	for row in reader:
+		tablee4.append(row)
+totalpop2023 = 0
+for i in tablee4:
+	if i[2] == '89':
+		totalpop2023 += int(i[10])
+print(totalpop2023)
+
+nbr1 = 0
+table1=[]
+tablemod1=[]
+with open('donnees_2008.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=',')
+	for row in reader:
+		table1.append(row)
+del(table1[0])
+for i in table1:
+	if i[2] == '89':
+		tablemod1 += [int(i[9])]
+tablemod1.sort()
+for i in range(len(tablemod1)-10,len(tablemod1),1):
+	nbr1 += tablemod1[i]
+print(nbr1)
+
+nbr2 = 0
+table2=[]
+tablemod2=[]
+with open('donnees_2016.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=',')
+	for row in reader:
+		table2.append(row)
+for i in table2:
+	if i[2] == '89':
+		tablemod2 += [int(i[9])]
+tablemod2.sort()
+for i in range(len(tablemod2)-10,len(tablemod2),1):
+	nbr2 += tablemod2[i]
+print(nbr2)
+
+nbr3 = 0
+table3=[]
+tablemod3=[]
+with open('donnees_2021.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=';')
+	for row in reader:
+		table3.append(row)
+for i in table3:
+	if i[1] == '89':
+		tablemod3 += [int(i[5])]
+tablemod3.sort()
+for i in range(len(tablemod3)-10,len(tablemod3),1):
+	nbr3 += tablemod3[i]
+print(nbr3)
+
+nbr4 = 0
+table4=[]
+tablemod4=[]
+with open('donnees_2023.csv',newline='') as csvfile:
+	reader=csv.reader(csvfile,delimiter=';')
+	for row in reader:
+		table4.append(row)
+for i in table4:
+	if i[2] == '89':
+		tablemod4 += [int(i[10])]
+tablemod4.sort()
+for i in range(len(tablemod4)-10,len(tablemod4),1):
+	nbr4 += tablemod4[i]
+print(nbr4)
+listeannee = [2008,2016,2021,2023]
+listepop = [totalpop2008,totalpop2016,totalpop2021,totalpop2023]
+listepop2 = [nbr1,nbr2,nbr3,nbr4]
+figure()
+plot(listeannee,listepop)
+plot(listeannee,listepop2)
+show()
